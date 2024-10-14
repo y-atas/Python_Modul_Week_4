@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "Uye adi": "Yusuf",
+        "Telefon": "7777",
+        "Adres": "Istanbul"
+    },
+    {
+        "id": 2,
+        "Uye adi": "Kamuran",
+        "Telefon": "4444",
+        "Adres": "Kars"
+    },
+    {
+        "id": 3,
+        "Uye adi": "Hakim",
+        "Telefon": "999",
+        "Adres": "Corum"
+    },
+    {
+        "id": 6,
+        "Uye adi": "Azad",
+        "Telefon": "777",
+        "Adres": "Hakkari"
+    },
+    {
+        "id": 7,
+        "Uye adi": "mustafa",
+        "Telefon": "1111",
+        "Adres": "Kars"
+    }
+]
