@@ -104,6 +104,7 @@ def searchMember():
 
 
 def bookLending():
+
     taksi = load_or_save.loadData(load_or_save.taksi)
     books = load_or_save.loadData(load_or_save.books)
     members = load_or_save.loadData(load_or_save.membersFileName)
@@ -116,51 +117,62 @@ def bookLending():
         for member in members:
             if member["id"] == personID:
                 print(f"Hallo {member['Uye adi']}")
+
                 book_barcode = int(
                     input("Enter the barcode you want to borrow: "))
+                # kitap zaten odunc verilmis mi?
+                if book_barcode in [track["Barkod"] for track in tracking]:
+                    print(f"\n{book_barcode} nolu kitap zaten odunc verilmis. ")
+                    break
 
-                for book in books:
-                    if book["Barkod"] == book_barcode:
-                        print(f"\n{book['Barkod']} kitap adı: {
-                            book['Kitap_Adi']} ödünç olarak veriliyor")
-                        taksi.append(book)  # Kitabı 'taksi'ye ekle
-                        books.remove(book)  # Kitabı 'books'tan çıkar
-
-                        book_found = True
-                        break
-
-                if book_found:
-                    registTime, returnTime = getTime.datas()  # Tarih bilgilerini al
-
-                    # Yeni bir takip kaydı oluştur
-                    new_tracking_entry = {
-                        "id": 2,
-                        "Uye adi": member["Uye adi"],
-                        "Telefon": member["Telefon"],
-                        "Adres": member["Adres"],
-                        "Barkod": book["Barkod"],
-                        "Dil": book["Dil"],
-                        "Fiyat": book["Fiyat"],
-                        "Kitap_Adi": book["Kitap_Adi"],
-                        "Yayinevi": book["Yayinevi"],
-                        "Yazar": book["Yazar"],
-                        "Kayit Tarihi": registTime,
-                        "Kitap iade Tarihi": returnTime
-                    }
-
-                    # Tracking listesine ekle
-                    tracking.append(new_tracking_entry)
-
-                    # Verileri dosyalara kaydet
-                    load_or_save.saveData(load_or_save.tracking, tracking)
-                    load_or_save.saveData(load_or_save.books, books)
-                    load_or_save.saveData(
-                        load_or_save.membersFileName, members)
-                    load_or_save.saveData(load_or_save.taksi, taksi)
-
-                    print(f"\nBarkodu: {book_barcode} olan kitap, {returnTime} tarihine kadar {
-                        member['Uye adi']} kişisine verilmiştir.")
                 else:
-                    print(f"{book_barcode} is not found in the books list.")
+                    for book in books:
+                        if book["Barkod"] == book_barcode:
+                            print(f"\n{book['Barkod']} kitap adı: {
+                                book['Kitap_Adi']} ödünç olarak veriliyor")
+                            taksi.append(book)  # Kitabı 'taksi'ye ekle
+                            books.remove(book)  # Kitabı 'books'tan çıkar
+
+                            book_found = True
+                            break
+
+                    if book_found:
+                        registTime, returnTime = getTime.datas()  # Tarih bilgilerini al
+
+                        # Yeni bir takip kaydı oluştur ki tek bir index te butun degerleri birlestir.
+                        new_tracking_entry = {
+                            "id": 2,
+                            "Uye adi": member["Uye adi"],
+                            "Telefon": member["Telefon"],
+                            "Adres": member["Adres"],
+                            "Barkod": book["Barkod"],
+                            "Dil": book["Dil"],
+                            "Fiyat": book["Fiyat"],
+                            "Kitap_Adi": book["Kitap_Adi"],
+                            "Yayinevi": book["Yayinevi"],
+                            "Yazar": book["Yazar"],
+                            "Kayit Tarihi": registTime,
+                            "Kitap iade Tarihi": returnTime
+                        }
+
+                        # Tracking listesine ekle
+                        tracking.append(new_tracking_entry)
+
+                        # Verileri dosyalara kaydet
+                        load_or_save.saveData(load_or_save.tracking, tracking)
+                        load_or_save.saveData(load_or_save.books, books)
+                        load_or_save.saveData(
+                            load_or_save.membersFileName, members)
+                        load_or_save.saveData(load_or_save.taksi, taksi)
+
+                        print(f"\nBarkodu: {book_barcode} olan kitap, {returnTime} tarihine kadar {
+                            member['Uye adi']} kişisine verilmiştir.")
+                    else:
+                        print(f"{book_barcode} is not found in the books list.")
     except Exception as e:
         print(f"Bir hata olustu.", e)
+
+
+if __name__ == "__main__":
+    books = load_or_save.loadData(load_or_save.books)
+    print(f"{len(books)}")

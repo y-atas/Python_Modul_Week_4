@@ -12,5 +12,33 @@
         "Yazar": "Paulo Coelho",
         "Kayit Tarihi": "10-14-2024 20:53",
         "Kitap iade Tarihi": "10-28-2024 20:53"
+    },
+    {
+        "id": 2,
+        "Uye adi": "Kamuran",
+        "Telefon": "4444",
+        "Adres": "Kars",
+        "Barkod": 9786258495423,
+        "Dil": "T\u00fcrk\u00e7e",
+        "Fiyat": 34.3,
+        "Kitap_Adi": "Zamir",
+        "Yayinevi": "Do\u011fan Kitap",
+        "Yazar": "Hakan G\u00fcnday",
+        "Kayit Tarihi": "15-10-2024 08:39",
+        "Kitap iade Tarihi": "29-10-2024 08:39"
+    },
+    {
+        "id": 2,
+        "Uye adi": "Kamuran",
+        "Telefon": "4444",
+        "Adres": "Kars",
+        "Barkod": 9786254053702,
+        "Dil": "T\u00fcrk\u00e7e",
+        "Fiyat": 6.5,
+        "Kitap_Adi": "Beyaz Zambaklar \u00dclkesinde - Atat\u00fcrk'\u00fcn Tavsiye Etti\u011fi Kitap",
+        "Yayinevi": "\u0130\u015f Bankas\u0131 K\u00fclt\u00fcr Yay\u0131nlar\u0131",
+        "Yazar": "Grigory Petrov",
+        "Kayit Tarihi": "15-10-2024 09:02",
+        "Kitap iade Tarihi": "29-10-2024 09:02"
     }
 ]
