@@ -1,21 +1,5 @@
 [
     {
-        "Barkod": 9789750751363,
-        "Dil": "T\u00fcrk\u00e7e",
-        "Fiyat": 24.15,
-        "Kitap_Adi": "Ok\u00e7u'nun Yolu",
-        "Yayinevi": "Can Yay\u0131nlar\u0131",
-        "Yazar": "Paulo Coelho"
-    },
-    {
-        "Barkod": 9786258495423,
-        "Dil": "T\u00fcrk\u00e7e",
-        "Fiyat": 34.3,
-        "Kitap_Adi": "Zamir",
-        "Yayinevi": "Do\u011fan Kitap",
-        "Yazar": "Hakan G\u00fcnday"
-    },
-    {
         "Barkod": 9786254053702,
         "Dil": "T\u00fcrk\u00e7e",
         "Fiyat": 6.5,

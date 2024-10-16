@@ -1,12 +1,12 @@
-import load_or_save  # File islemlerini ac ma kaydetme bu modulde
+import File  # File islemlerini ac ma kaydetme bu modulde
 import getTime  # zaman islemleri bu modulden cagriliyor.
 
 
 def membersAdd():
-    members = load_or_save.loadData(
-        load_or_save.membersFileName)  # Üyeleri yükle
+    members = File.loadData(
+        File.membersFileName)  # Üyeleri yükle
 
-    emty_slot = load_or_save.loadData(load_or_save.emtySlot)
+    emty_slot = File.loadData(File.emtySlot)
     id = len(members) + 1 if not emty_slot else emty_slot.pop(0)
 
     new_member = {
@@ -18,16 +18,16 @@ def membersAdd():
 
     members.append(new_member)  # Yeni üyeyi ekle
     members.sort(key=lambda member: member["id"])
-    load_or_save.saveData(load_or_save.membersFileName,
-                          members)  # Verileri kaydet
-    load_or_save.saveData(load_or_save.emtySlot, emty_slot)
+    File.saveData(File.membersFileName,
+                  members)  # Verileri kaydet
+    File.saveData(File.emtySlot, emty_slot)
 
 
 def membersAllList():
     try:
 
         # Üyeleri yükle
-        members = load_or_save.loadData(load_or_save.membersFileName)
+        members = File.loadData(File.membersFileName)
 
         if not members:  # Eğer üye yoksa
             print("Hicbir uye bulunamadi.")
@@ -43,7 +43,7 @@ def memberDelete():
 
     membersAllList()  # Butun members uyelerini oncelikle goruntule
     # Üyeleri yükle
-    members = load_or_save.loadData(load_or_save.membersFileName)
+    members = File.loadData(File.membersFileName)
 
     while True:
 
@@ -53,19 +53,19 @@ def memberDelete():
         for mem in members:
             if mem["id"] == delete_ID:
                 # Dosyadan bir kayit siliniyorsa, bunlari kayit altina aliyoruz.
-                emty_slot = load_or_save.loadData(load_or_save.emtySlot)
+                emty_slot = File.loadData(File.emtySlot)
                 emty_slot.append(mem["id"])
                 # Burada ilk once listeyi siraya koyduk ve sonra dosyamiza ekledik.
                 emty_slot.sort()
                 # silinen id yi silinen dosyasina ekle
-                load_or_save.saveData(load_or_save.emtySlot, emty_slot)
+                File.saveData(File.emtySlot, emty_slot)
 
                 members.remove(mem)  # Üyeyi sil
                 print(f"Üye {delete_ID} başariyla silindi.")
 
                 found = True  # Üye bulundu
                 # veri silindikten sonra uyeleri guncelle.
-                load_or_save.saveData(load_or_save.membersFileName, members)
+                File.saveData(File.membersFileName, members)
                 break  # Üye bulunduktan sonra döngüyü kır
 
         if not found:  # Eğer döngü tamamlandı ve üye bulunamadıysa
@@ -80,7 +80,7 @@ def memberDelete():
 def searchMember():
     membersAllList()
 
-    members = load_or_save.loadData(load_or_save.membersFileName)
+    members = File.loadData(File.membersFileName)
     search = input("Type here what you want to search for: ").strip()
 
     counter = 0  # Kac adet eslesme varsa onu sayacaktir.
@@ -105,10 +105,10 @@ def searchMember():
 
 def bookLending():
 
-    taksi = load_or_save.loadData(load_or_save.taksi)
-    books = load_or_save.loadData(load_or_save.books)
-    members = load_or_save.loadData(load_or_save.membersFileName)
-    tracking = load_or_save.loadData(load_or_save.tracking)
+    taksi = File.loadData(File.taksi)
+    books = File.loadData(File.books)
+    members = File.loadData(File.membersFileName)
+    tracking = File.loadData(File.tracking)
     try:
 
         personID = int(input("Enter your user ID no: "))
@@ -159,11 +159,11 @@ def bookLending():
                         tracking.append(new_tracking_entry)
 
                         # Verileri dosyalara kaydet
-                        load_or_save.saveData(load_or_save.tracking, tracking)
-                        load_or_save.saveData(load_or_save.books, books)
-                        load_or_save.saveData(
-                            load_or_save.membersFileName, members)
-                        load_or_save.saveData(load_or_save.taksi, taksi)
+                        File.saveData(File.tracking, tracking)
+                        File.saveData(File.books, books)
+                        File.saveData(
+                            File.membersFileName, members)
+                        File.saveData(File.taksi, taksi)
 
                         print(f"\nBarkodu: {book_barcode} olan kitap, {returnTime} tarihine kadar {
                             member['Uye adi']} kişisine verilmiştir.")
@@ -173,6 +173,73 @@ def bookLending():
         print(f"Bir hata olustu.", e)
 
 
+def bookReturn():
+
+    taksi = File.loadData(File.taksi)
+    books = File.loadData(File.books)
+    members = File.loadData(File.membersFileName)
+    tracking = File.loadData(File.tracking)
+
+    if len(taksi) == 0:
+        print(f"Iade edilecek hic bir kitap bulunamadi.")
+
+    else:
+        try:
+
+            book_barcode = int(
+                input("Enter the barcode you wish to return : "))
+            book_found = False
+            for track in tracking:
+                if track["Barkod"] == book_barcode:
+                    book_found = True
+                    print(f"\n{book_barcode} kitap iade edildi.. ")
+                    tracking.remove(track)
+                    for taks in taksi:
+                        if taks["Barkod"] == book_barcode:
+                            books.append(taks)
+                            taksi.remove(taks)
+                            File.saveData(File.books, books)
+                            File.saveData(
+                                File.tracking, tracking)
+                            File.saveData(File.taksi, taksi)
+                            break
+                if not book_found:
+                    print(f"{book_barcode} bulunamadi..")
+                    break
+
+        except Exception as e:
+            print(f"Bir hata olustu.", e)
+
+
+def booktracking():
+    from datetime import datetime  # tarih işlemleri için gerekli.
+
+    tracking = File.loadData(File.tracking)
+    if len(tracking) == 0:
+        print("Takip listesinde hiçbir kitap bulunmamaktadir.")
+    else:
+        for track in tracking:
+            # Burada kitap iade tarihi hala geçerli mi diye bakıyoruz
+            # Str olan tarihleri datetime'a çeviriyoruz
+            # Listedeki iade tarihini aldik.
+            return_time = track["Kitap iade Tarihi"]
+            # Alinan tarihi str den datetime formatina cevirdik.
+            return_time = datetime.strptime(return_time, '%d-%m-%Y %H:%M')
+            current_time = datetime.now()
+
+            # Şu anki zamanı iade tarihi ile karşılaştırıyoruz
+            if return_time >= current_time:
+                print(f'Barkod: {track["Barkod"]}, Kitap adi: {
+                      track["Kitap_Adi"]}')
+                print(f'{track["Kitap iade Tarihi"]
+                         } tarihine kadar iade edilmelidir.\n')
+            else:
+
+                print(f'Barkod: {track["Barkod"]}, Kitap adı: {
+                      track["Kitap_Adi"]}')
+                print(f"{(current_time - return_time)}  Iade günü geçmiştir.\n")
+
+
 if __name__ == "__main__":
-    books = load_or_save.loadData(load_or_save.books)
+    books = File.loadData(File.books)
     print(f"{len(books)}")
